@@ -19,7 +19,7 @@ class _TaskCardState extends State<TaskCard> {
       padding: const EdgeInsets.only(top: 0, bottom: 5, left: 10, right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: widget.task.isCompleted ? Colors.lightGreen : Colors.redAccent,
+        color: widget.task.progress==100 ? Colors.lightGreen : Colors.redAccent,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,6 @@ class _TaskCardState extends State<TaskCard> {
               ),
             ],
           ),
-          Text(widget.task.description, style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

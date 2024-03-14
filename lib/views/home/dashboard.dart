@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/models/task_model.dart';
 
 class DashBoard extends StatefulWidget {
-  const DashBoard({super.key, required this.tasks});
-  final List<Task> tasks;
+  const DashBoard({super.key});
 
   @override
   State<DashBoard> createState() => _DashBoardState();

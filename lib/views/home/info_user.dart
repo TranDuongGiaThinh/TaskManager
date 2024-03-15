@@ -68,7 +68,7 @@ class _InfoUserState extends State<InfoUser> {
                         fontFamily: MyConstants.appFont,
                         fontSize: MyConstants.largeFontSize,
                         fontWeight: FontWeight.bold,
-                        color: MyColors.headerText),
+                        color: MyColors.primary),
                   ),
                 ],
               ),

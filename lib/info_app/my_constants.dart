@@ -30,4 +30,12 @@ class MyConstants{
   static const String today = "Hôm nay";
   static const String all = "Tất cả";
   static const String empty = "";
+
+  //Add Task Screen
+  static const String addTask = "Thêm Việc";
+  static const String taskName = "Nội dung công việc";
+  static const String enterTaskName = "Nhập nội dung...";
+  static const String addDeadline = "Thêm thời hạn";
+  static const String addStartDate = "Thêm Thời gian bắt đầu";
+  static const String enterDeadline = "Chọn thời gian";
 }

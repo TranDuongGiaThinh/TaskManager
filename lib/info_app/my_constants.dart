@@ -7,8 +7,14 @@ class MyConstants{
   static const double smallFontSize = 10.0;
 
   static const double avatarSize = 50.0;
+  static const double progressCircleSize = 60.0;
   static const double chartSize = 93.0;
   static const double noteSize = 15.0;
+  static const double taskCardHeight = 70.0;
+  static const double taskCardDividerThickness = 1.5;
+  static const double redPointSize = 8.0;
+  static const double redPointRight = -6.0;
+  static const double redPointTop = -6.0;
   
   static const String search = "Tìm kiếm...";
   static const String premium = "Premium";
@@ -23,4 +29,5 @@ class MyConstants{
   static const String expired = "Hết hạn";
   static const String today = "Hôm nay";
   static const String all = "Tất cả";
+  static const String empty = "";
 }

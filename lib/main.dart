@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/info_app/my_constants.dart';
 import 'package:task_manager/views/home/home_screen.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Task Manager',
+      title: MyConstants.appName,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

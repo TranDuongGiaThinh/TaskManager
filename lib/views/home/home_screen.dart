@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/views/home/custom_appbar.dart';
 import 'package:task_manager/views/home/dashboard.dart';
+import 'package:task_manager/views/home/info_user.dart';
 import 'package:task_manager/views/home/task_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,14 +12,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home"), actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-      ]),
-      body: ListView(children: [
+      body: ListView(children: const [
+        CustomAppbar(),
+        InfoUser(),
         DashBoard(),
         TaskList(),
       ]),

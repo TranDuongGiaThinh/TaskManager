@@ -27,6 +27,7 @@ class MyColors {
   static const Color filterPannelItemTextSelected = Colors.white;
   static const Color redPoint = Colors.red;
 
-  static const Color inputBackground = Color.fromARGB(255, 229, 229, 229);
-  static const Color addTaskText = Colors.white;
+  static const Color inputBackground = Color.fromARGB(255, 231, 231, 231);
+  static const Color progressBackground = Color.fromARGB(255, 193, 193, 193);
+  static const Color textInButton = Colors.white;
 }

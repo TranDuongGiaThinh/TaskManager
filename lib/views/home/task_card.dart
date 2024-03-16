@@ -108,7 +108,7 @@ class _TaskCardState extends State<TaskCard> {
                 ),
                 Expanded(
                   child: Text(
-                    widget.task.title,
+                    widget.task.name,
                     style: const TextStyle(
                       fontFamily: MyConstants.appFont,
                       fontSize: MyConstants.mediumFontSize,

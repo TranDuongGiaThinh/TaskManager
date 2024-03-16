@@ -20,7 +20,7 @@ class _TaskListState extends State<TaskList> {
           task: Task(
             id: 1,
             idUser: 1,
-            title: "Thiết kế giao diện",
+            name: "Thiết kế giao diện",
             progress: 100,
             startDate: DateTime(2024, 03, 15, 9, 0),
             deadline: DateTime(2024, 03, 17, 23, 59),
@@ -31,7 +31,7 @@ class _TaskListState extends State<TaskList> {
           task: Task(
             id: 1,
             idUser: 1,
-            title: "Code giao diện",
+            name: "Code giao diện",
             progress: 33,
             startDate: DateTime(2024, 03, 15, 9, 0),
             deadline: DateTime(2024, 03, 17, 23, 59),
@@ -42,7 +42,7 @@ class _TaskListState extends State<TaskList> {
           task: Task(
             id: 1,
             idUser: 1,
-            title: "Xử lý sự kiện",
+            name: "Xử lý sự kiện",
             progress: 0,
             startDate: DateTime(2024, 03, 18, 9, 0),
             deadline: DateTime(2024, 03, 19, 23, 59),

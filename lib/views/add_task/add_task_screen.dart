@@ -18,8 +18,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height - 40,
-        padding: const EdgeInsets.only(top: 40, left: 5, right: 5),
+        height: MediaQuery.of(context).size.height -10,
+        padding: const EdgeInsets.only(top: 35, left: 5, right: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +106,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           fontFamily: MyConstants.appFont,
                           fontWeight: FontWeight.bold,
                           fontSize: MyConstants.largeFontSize,
-                          color: MyColors.addTaskText,
+                          color: MyColors.textInButton,
                         ),
                       ),
                     ),

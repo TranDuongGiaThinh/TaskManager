@@ -38,4 +38,8 @@ class MyConstants{
   static const String addDeadline = "Thêm thời hạn";
   static const String addStartDate = "Thêm Thời gian bắt đầu";
   static const String enterDeadline = "Chọn thời gian";
+
+  //Task detail
+  static const String checklist = "Checklist";
+  static const String complete = "Đánh Dấu Hoàn Thành";
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/info_app/my_colors.dart';
 import 'package:task_manager/info_app/my_constants.dart';
 import 'package:task_manager/info_app/my_icon.dart';
+import 'package:task_manager/views/add_task/add_task_screen.dart';
 
 class CustomAppbar extends StatefulWidget {
   const CustomAppbar({super.key});
@@ -54,7 +55,12 @@ class _CustomAppbarState extends State<CustomAppbar> {
           ),
           GestureDetector(
             onTap: () {
-              // Todo
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddTaskScreen(),
+                ),
+              );
             },
             child: const Icon(
               MyIcon.add,

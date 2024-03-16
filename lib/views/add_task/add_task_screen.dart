@@ -18,12 +18,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height -10,
+        height: MediaQuery.of(context).size.height - 10,
         padding: const EdgeInsets.only(top: 35, left: 5, right: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back_ios),
+            ),
             Expanded(
               child: Column(
                 children: [
@@ -45,7 +51,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       //todo
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(top: 5,bottom: 5),
+                      margin: const EdgeInsets.only(top: 5, bottom: 5),
                       padding: const EdgeInsets.all(5),
                       height: MediaQuery.of(context).size.height / 7,
                       width: MediaQuery.of(context).size.width,

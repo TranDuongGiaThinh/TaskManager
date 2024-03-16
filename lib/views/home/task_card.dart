@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/info_app/my_colors.dart';
 import 'package:task_manager/info_app/my_constants.dart';
 import 'package:task_manager/models/task_model.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:task_manager/views/task_detail/task_detail_screen.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({super.key, required this.task});
@@ -60,77 +62,88 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     if (stateWork == null) return Container();
-    return Container(
-      padding: const EdgeInsets.only(left: 5, right: 5),
-      height: MyConstants.taskCardHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: MyColors.taskCard,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: MyConstants.progressCircleSize,
-            height: MyConstants.progressCircleSize,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: stateColor!, width: 5),
-            ),
-            child: Center(
-              child: Text(
-                "${widget.task.progress}%",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: MyConstants.appFont,
-                  fontSize: MyConstants.mediumFontSize,
-                  color: MyColors.headerText,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TaskDetailScreen(task: widget.task),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 5, right: 5),
+        height: MyConstants.taskCardHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: MyColors.taskCard,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MyConstants.progressCircleSize,
+              height: MyConstants.progressCircleSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: stateColor!, width: 5),
+              ),
+              child: Center(
+                child: Text(
+                  "${widget.task.progress}%",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: MyConstants.appFont,
+                    fontSize: MyConstants.mediumFontSize,
+                    color: MyColors.headerText,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    stateWork!,
-                    style: TextStyle(
-                      fontFamily: MyConstants.appFont,
-                      fontWeight: FontWeight.bold,
-                      fontSize: MyConstants.largeFontSize,
-                      color: stateColor,
+            const SizedBox(width: 5),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      stateWork!,
+                      style: TextStyle(
+                        fontFamily: MyConstants.appFont,
+                        fontWeight: FontWeight.bold,
+                        fontSize: MyConstants.largeFontSize,
+                        color: stateColor,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    widget.task.name,
-                    style: const TextStyle(
-                      fontFamily: MyConstants.appFont,
-                      fontSize: MyConstants.mediumFontSize,
-                      color: MyColors.headerText,
+                  Expanded(
+                    child: Text(
+                      widget.task.name,
+                      style: const TextStyle(
+                        fontFamily: MyConstants.appFont,
+                        fontSize: MyConstants.mediumFontSize,
+                        color: MyColors.headerText,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    calculateDate(),
-                    style: const TextStyle(
-                      fontFamily: MyConstants.appFont,
-                      fontSize: MyConstants.smallFontSize,
-                      color: MyColors.normalText,
+                  Expanded(
+                    child: Text(
+                      calculateDate(),
+                      style: const TextStyle(
+                        fontFamily: MyConstants.appFont,
+                        fontSize: MyConstants.smallFontSize,
+                        color: MyColors.normalText,
+                      ),
                     ),
                   ),
-                ),
-                const Divider(thickness: MyConstants.taskCardDividerThickness),
-              ],
+                  const Divider(
+                      thickness: MyConstants.taskCardDividerThickness),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

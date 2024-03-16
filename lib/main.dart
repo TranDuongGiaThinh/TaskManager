@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/info_app/my_constants.dart';
-import 'package:task_manager/views/add_task/add_task_screen.dart';
+import 'package:task_manager/models/task_model.dart';
 import 'package:task_manager/views/home/home_screen.dart';
+import 'package:task_manager/views/task_detail/task_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const AddTaskScreen(),
+      home: const HomeScreen(),
     );
   }
 }

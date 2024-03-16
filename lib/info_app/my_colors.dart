@@ -30,4 +30,5 @@ class MyColors {
   static const Color inputBackground = Color.fromARGB(255, 231, 231, 231);
   static const Color progressBackground = Color.fromARGB(255, 193, 193, 193);
   static const Color textInButton = Colors.white;
+  static const Color iconUnchecked = Color.fromARGB(255, 193, 193, 193);
 }

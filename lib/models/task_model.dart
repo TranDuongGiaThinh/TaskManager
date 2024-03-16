@@ -1,7 +1,7 @@
 class Task {
   int id;
   int idUser;
-  String title;
+  String name;
   int progress;
   DateTime? startDate;
   DateTime? deadline;
@@ -10,7 +10,7 @@ class Task {
   Task({
     required this.id,
     required this.idUser,
-    required this.title,
+    required this.name,
     required this.progress,
     this.startDate,
     this.deadline,
@@ -19,7 +19,7 @@ class Task {
   Task.empty({
     this.id = 0,
     this.idUser = 0,
-    this.title = "Taskname",
+    this.name = "Taskname",
     this.progress = 0,
   });
 }

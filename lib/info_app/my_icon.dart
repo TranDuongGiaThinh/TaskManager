@@ -6,4 +6,8 @@ class MyIcon {
   static const IconData add = Icons.add;
   static const IconData percent = Icons.percent;
   static const IconData circle = Icons.circle;
+  static const IconData more = Icons.more_horiz;
+  static const IconData checkedBox = Icons.check_box_outlined;
+  static const IconData box = Icons.check_box_outline_blank_rounded;
+
 }

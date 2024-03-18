@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/info_app/my_colors.dart';
 import 'package:task_manager/info_app/my_constants.dart';
+import 'package:task_manager/models/task_model.dart';
 import 'package:task_manager/views/home/note.dart';
+// ignore: depend_on_referenced_packages
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -11,7 +14,74 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  int progress = 35;
+  List<charts.Series<Task, String>> seriesPieData = [];
+
+  int getProgressToday() {
+    return 10;
+  }
+
+  int countDueTask() {
+    return 1;
+  }
+
+  int countNotYetDoneTask() {
+    return 2;
+  }
+
+  int countInProgressTask() {
+    return 3;
+  }
+
+  int countCompletedTask() {
+    return 4;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _generateData();
+  }
+
+  void _generateData() {
+    var data = [
+      Task(id: 1, idUser: 1, name: MyConstants.due, progress: countDueTask()),
+      Task(
+        id: 2,
+        idUser: 1,
+        name: "Code giao diện",
+        progress: 33,
+        startDate: DateTime(2024, 03, 15, 9, 0),
+        deadline: DateTime(2024, 03, 17, 23, 59),
+      ),
+      Task(
+        id: 1,
+        idUser: 1,
+        name: "Thiết kế giao diện",
+        progress: 100,
+        startDate: DateTime(2024, 03, 15, 9, 0),
+        deadline: DateTime(2024, 03, 17, 23, 59),
+        completionDate: DateTime(2024, 03, 16, 10, 30),
+      ),
+      Task(
+        id: 3,
+        idUser: 1,
+        name: "Xử lý sự kiện",
+        progress: 0,
+        startDate: DateTime(2024, 03, 18, 9, 0),
+        deadline: DateTime(2024, 03, 19, 23, 59),
+      ),
+    ];
+
+    seriesPieData.add(
+      charts.Series(
+        data: data,
+        domainFn: (Task task, _) => task.name,
+        measureFn: (Task task, _) => task.progress,
+        id: 'Tasks',
+        labelAccessorFn: (Task task, _) => '${task.progress}',
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +106,7 @@ class _DashBoardState extends State<DashBoard> {
                 //todo
               },
               child: Text(
-                "${MyConstants.completed} $progress% ${MyConstants.today.toLowerCase()} >",
+                "${MyConstants.completed} ${getProgressToday()}% ${MyConstants.today.toLowerCase()} >",
                 style: const TextStyle(
                   fontFamily: MyConstants.appFont,
                   fontSize: MyConstants.largeFontSize,
@@ -50,37 +120,47 @@ class _DashBoardState extends State<DashBoard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            //biểu đồ tròn
             Container(
               margin: const EdgeInsets.all(5),
               height: MyConstants.chartSize,
               width: MyConstants.chartSize,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: MyColors.completed,
+              child: charts.PieChart(
+                seriesPieData,
+                animate: true,
+                animationDuration: const Duration(milliseconds: 500),
+                defaultRenderer: charts.ArcRendererConfig(
+                  arcWidth: 60,
+                  arcRendererDecorators: [
+                    charts.ArcLabelDecorator(
+                      labelPosition: charts.ArcLabelPosition.auto,
+                    ),
+                  ],
+                ),
               ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Note(
                   color: MyColors.due,
-                  count: 0,
+                  count: countDueTask(),
                   description: MyConstants.due,
                 ),
                 Note(
                   color: MyColors.notYetDone,
-                  count: 0,
+                  count: countNotYetDoneTask(),
                   description: MyConstants.notYetDone,
                 ),
                 Note(
                   color: MyColors.inProgress,
-                  count: 0,
+                  count: countInProgressTask(),
                   description: MyConstants.inProgress,
                 ),
                 Note(
                   color: MyColors.completed,
-                  count: 1,
+                  count: countCompletedTask(),
                   description: MyConstants.completed,
                 ),
               ],

@@ -29,18 +29,17 @@ class _TaskListState extends State<TaskList> {
         ),
         TaskCard(
           task: Task(
-            id: 1,
+            id: 2,
             idUser: 1,
             name: "Code giao diện",
             progress: 33,
             startDate: DateTime(2024, 03, 15, 9, 0),
             deadline: DateTime(2024, 03, 17, 23, 59),
-            completionDate: DateTime(2024, 03, 16, 10, 30),
           ),
         ),
         TaskCard(
           task: Task(
-            id: 1,
+            id: 3,
             idUser: 1,
             name: "Xử lý sự kiện",
             progress: 0,

@@ -8,7 +8,7 @@ class MyConstants{
 
   static const double avatarSize = 50.0;
   static const double progressCircleSize = 60.0;
-  static const double chartSize = 93.0;
+  static const double chartSize = 150.0;
   static const double noteSize = 15.0;
   static const double taskCardHeight = 70.0;
   static const double taskCardDividerThickness = 1.5;

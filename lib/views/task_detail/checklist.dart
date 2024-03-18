@@ -34,13 +34,13 @@ class _ChecklistState extends State<Checklist> {
           id: 1,
           idTask: 1,
           name: "Thiết kế màn hình chi tiết",
-          completed: true,
+          completed: false,
         ),
         ChecklistItem(
           id: 1,
           idTask: 1,
           name: "Thiết kế màn hình thêm mới",
-          completed: true,
+          completed: false,
         ),
       ];
     });

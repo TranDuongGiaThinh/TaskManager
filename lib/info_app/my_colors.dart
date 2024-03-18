@@ -13,7 +13,7 @@ class MyColors {
 
   static const Color appbar = Colors.white;
   static const Color infoUser = Colors.white;
-  static const Color dashboard = Colors.orangeAccent;
+  static const Color dashboard = Color.fromARGB(255, 252, 219, 176);
 
   static const Color premiumText = Colors.white;
   static const Color premiumBackground = Colors.blue;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/info_app/my_colors.dart';
 import 'package:task_manager/info_app/my_constants.dart';
-import 'package:task_manager/models/task_model.dart';
+import 'package:task_manager/models/charts_model.dart';
 import 'package:task_manager/views/home/note.dart';
 // ignore: depend_on_referenced_packages
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -14,26 +14,26 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  List<charts.Series<Task, String>> seriesPieData = [];
+  List<charts.Series<ChartsModel, String>> seriesPieData = [];
 
   int getProgressToday() {
-    return 10;
+    return 33;
   }
 
   int countDueTask() {
-    return 1;
-  }
-
-  int countNotYetDoneTask() {
     return 2;
   }
 
-  int countInProgressTask() {
+  int countNotYetDoneTask() {
     return 3;
   }
 
+  int countInProgressTask() {
+    return 2;
+  }
+
   int countCompletedTask() {
-    return 4;
+    return 1;
   }
 
   @override
@@ -43,42 +43,29 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   void _generateData() {
-    var data = [
-      Task(id: 1, idUser: 1, name: MyConstants.due, progress: countDueTask()),
-      Task(
-        id: 2,
-        idUser: 1,
-        name: "Code giao diện",
-        progress: 33,
-        startDate: DateTime(2024, 03, 15, 9, 0),
-        deadline: DateTime(2024, 03, 17, 23, 59),
-      ),
-      Task(
-        id: 1,
-        idUser: 1,
-        name: "Thiết kế giao diện",
-        progress: 100,
-        startDate: DateTime(2024, 03, 15, 9, 0),
-        deadline: DateTime(2024, 03, 17, 23, 59),
-        completionDate: DateTime(2024, 03, 16, 10, 30),
-      ),
-      Task(
-        id: 3,
-        idUser: 1,
-        name: "Xử lý sự kiện",
-        progress: 0,
-        startDate: DateTime(2024, 03, 18, 9, 0),
-        deadline: DateTime(2024, 03, 19, 23, 59),
-      ),
+    List<ChartsModel> data = [
+      ChartsModel(MyConstants.due, countDueTask(), MyColors.due),
+      ChartsModel(
+          MyConstants.notYetDone, countNotYetDoneTask(), MyColors.notYetDone),
+      ChartsModel(
+          MyConstants.inProgress, countInProgressTask(), MyColors.inProgress),
+      ChartsModel(
+          MyConstants.completed, countCompletedTask(), MyColors.completed),
     ];
 
     seriesPieData.add(
       charts.Series(
         data: data,
-        domainFn: (Task task, _) => task.name,
-        measureFn: (Task task, _) => task.progress,
+        domainFn: (ChartsModel model, _) {
+          return model.description;
+        },
+        measureFn: (ChartsModel model, _) {
+          return model.count.toDouble() / ChartsModel.countTotal;
+        },
+        colorFn: (ChartsModel model, _) =>
+            charts.ColorUtil.fromDartColor(model.color),
         id: 'Tasks',
-        labelAccessorFn: (Task task, _) => '${task.progress}',
+        labelAccessorFn: (ChartsModel model, _) => '${model.count}',
       ),
     );
   }
@@ -88,86 +75,80 @@ class _DashBoardState extends State<DashBoard> {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
       width: MediaQuery.of(context).size.width,
-      color: MyColors.primary,
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              MyConstants.statisticalWork,
-              style: TextStyle(
-                fontFamily: MyConstants.appFont,
-                fontSize: MyConstants.largeFontSize,
-                color: MyColors.normalText,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                //todo
-              },
-              child: Text(
-                "${MyConstants.completed} ${getProgressToday()}% ${MyConstants.today.toLowerCase()} >",
-                style: const TextStyle(
+      color: MyColors.dashboard,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                MyConstants.statisticalWork,
+                style: TextStyle(
                   fontFamily: MyConstants.appFont,
                   fontSize: MyConstants.largeFontSize,
                   color: MyColors.normalText,
                 ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            //biểu đồ tròn
-            Container(
-              margin: const EdgeInsets.all(5),
-              height: MyConstants.chartSize,
-              width: MyConstants.chartSize,
-              child: charts.PieChart(
-                seriesPieData,
-                animate: true,
-                animationDuration: const Duration(milliseconds: 500),
-                defaultRenderer: charts.ArcRendererConfig(
-                  arcWidth: 60,
-                  arcRendererDecorators: [
-                    charts.ArcLabelDecorator(
-                      labelPosition: charts.ArcLabelPosition.auto,
-                    ),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  //todo
+                },
+                child: Text(
+                  "${MyConstants.completed} ${getProgressToday()}% ${MyConstants.today.toLowerCase()} >",
+                  style: const TextStyle(
+                    fontFamily: MyConstants.appFont,
+                    fontSize: MyConstants.largeFontSize,
+                    color: MyColors.normalText,
+                  ),
                 ),
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Note(
-                  color: MyColors.due,
-                  count: countDueTask(),
-                  description: MyConstants.due,
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width/2,
+                child: SizedBox(
+                  height: MyConstants.chartSize,
+                  width: MyConstants.chartSize,
+                  child: charts.PieChart(
+                    seriesPieData,
+                    defaultInteractions: false,
+                  ),
                 ),
-                Note(
-                  color: MyColors.notYetDone,
-                  count: countNotYetDoneTask(),
-                  description: MyConstants.notYetDone,
-                ),
-                Note(
-                  color: MyColors.inProgress,
-                  count: countInProgressTask(),
-                  description: MyConstants.inProgress,
-                ),
-                Note(
-                  color: MyColors.completed,
-                  count: countCompletedTask(),
-                  description: MyConstants.completed,
-                ),
-              ],
-            )
-          ],
-        ),
-      ]),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Note(
+                    color: MyColors.due,
+                    count: countDueTask(),
+                    description: MyConstants.due,
+                  ),
+                  Note(
+                    color: MyColors.notYetDone,
+                    count: countNotYetDoneTask(),
+                    description: MyConstants.notYetDone,
+                  ),
+                  Note(
+                    color: MyColors.inProgress,
+                    count: countInProgressTask(),
+                    description: MyConstants.inProgress,
+                  ),
+                  Note(
+                    color: MyColors.completed,
+                    count: countCompletedTask(),
+                    description: MyConstants.completed,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

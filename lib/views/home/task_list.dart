@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/blocs/task_bloc.dart';
+import 'package:task_manager/models/task_model.dart';
 import 'package:task_manager/utils/my_colors.dart';
 import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/views/home/filter_panel.dart';
@@ -32,17 +33,22 @@ class TaskList extends StatelessWidget {
     }
   }
 
+  int countTaskDue(List<Task> tasks) {
+    return tasks.where((task) => task.isDue()).length;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FilterPanel(
-          showMessage: updateMessage,
-        ),
-        BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, state) {
-            if (state.filteredTasks.isEmpty) {
-              return Container(
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            FilterPanel(
+              showMessage: updateMessage,
+              existTaskDue: countTaskDue(state.filteredTasks) != 0,
+            ),
+            if (state.filteredTasks.isEmpty)
+              Container(
                 height: MediaQuery.of(context).size.height / 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -57,17 +63,16 @@ class TaskList extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            } else {
-              return Column(
+              )
+            else
+              Column(
                 children: state.filteredTasks.map((task) {
                   return TaskCard(task: task);
                 }).toList(),
-              );
-            }
-          },
-        ),
-      ],
+              ),
+          ],
+        );
+      },
     );
   }
 }

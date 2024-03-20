@@ -5,8 +5,9 @@ import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/views/home/filter_panel_item.dart';
 
 class FilterPanel extends StatefulWidget {
-  const FilterPanel({super.key, required this.showMessage});
+  const FilterPanel({super.key, required this.showMessage, required this.existTaskDue});
   final Function(String) showMessage;
+  final bool existTaskDue;
 
   @override
   State<FilterPanel> createState() => _FilterPanelState();
@@ -33,7 +34,7 @@ class _FilterPanelState extends State<FilterPanel> {
             name: MyConstants.due,
             onClick: onFilterSelected,
             selected: selectedFilter == MyConstants.due,
-            redPoint: true,
+            redPoint: widget.existTaskDue,
           ),
           FilterPanelItem(
             name: MyConstants.all,

@@ -138,20 +138,9 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
-  bool checkDueTask(Task task) {
-    if (task.deadline != null) {
-      return task.deadline!.year == DateTime.now().year &&
-          task.deadline!.month == DateTime.now().month &&
-          task.deadline!.day == DateTime.now().day &&
-          task.completionDate != null;
-    } else {
-      return false;
-    }
-  }
-
   int countDueTask(List<Task> tasks) {
     return tasks.where((task) {
-      return checkDueTask(task);
+      return task.isDue();
     }).length;
   }
 
@@ -161,7 +150,7 @@ class _DashBoardState extends State<DashBoard> {
 
     int progressTotal = 0;
     for (int i = 0; i < tasks.length; i++)
-      if (checkDueTask(tasks[i])) progressTotal += tasks[i].progress;
+      if (tasks[i].isDue()) progressTotal += tasks[i].progress;
 
     return progressTotal / count.toDouble();
   }

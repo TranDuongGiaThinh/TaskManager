@@ -1,52 +1,73 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager/models/task_model.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/blocs/task_bloc.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/views/home/filter_panel.dart';
 import 'package:task_manager/views/home/task_card.dart';
 
-class TaskList extends StatefulWidget {
-  const TaskList({super.key});
+class TaskList extends StatelessWidget {
+  const TaskList({Key? key}) : super(key: key);
 
-  @override
-  State<TaskList> createState() => _TaskListState();
-}
+  static String message = "";
 
-class _TaskListState extends State<TaskList> {
+  void updateMessage(String filterName) {
+    switch (filterName) {
+      case MyConstants.due:
+        message = 'Chúc mừng! Bạn không có công việc đến hạn trong hôm nay!';
+        break;
+      case MyConstants.inProgress:
+        message = 'Không có công việc đang thực hiện!';
+        break;
+      case MyConstants.expired:
+        message = 'Chúc mừng! Bạn chưa có công việc nào quá hạn!';
+        break;
+      case MyConstants.completed:
+        message = 'Bạn chưa hoàn thành công việc nào!';
+        break;
+      default:
+        message = 'Danh sách rỗng!';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      const FilterPanel(),
-      for (int i = 0; i < 1; i++)
-        TaskCard(
-          task: Task(
-            id: 1,
-            idUser: 1,
-            name: "Thiết kế giao diện",
-            progress: 100,
-            startDate: DateTime(2024, 03, 15, 9, 0),
-            deadline: DateTime(2024, 03, 17, 23, 59),
-            completionDate: DateTime(2024, 03, 16, 10, 30),
-          ),
+    return Column(
+      children: [
+        FilterPanel(
+          showMessage: updateMessage,
         ),
-        TaskCard(
-          task: Task(
-            id: 2,
-            idUser: 1,
-            name: "Code giao diện",
-            progress: 33,
-            startDate: DateTime(2024, 03, 15, 9, 0),
-            deadline: DateTime(2024, 03, 17, 23, 59),
-          ),
+        BlocBuilder<TaskBloc, TaskState>(
+          builder: (context, state) {
+            if (state.filteredTasks.isEmpty) {
+              return Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      message,
+                      style: TextStyle(
+                        fontFamily: MyConstants.appFont,
+                        fontSize: MyConstants.mediumFontSize,
+                        color: MyColors.normalText,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Column(
+                children: state.filteredTasks.map((task) {
+                  return TaskCard(task: task);
+                }).toList(),
+              );
+            }
+          },
         ),
-        TaskCard(
-          task: Task(
-            id: 3,
-            idUser: 1,
-            name: "Xử lý sự kiện",
-            progress: 0,
-            startDate: DateTime(2024, 03, 18, 9, 0),
-            deadline: DateTime(2024, 03, 19, 23, 59),
-          ),
-        ),
-    ]);
+      ],
+    );
   }
 }

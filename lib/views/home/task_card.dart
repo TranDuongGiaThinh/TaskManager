@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/info_app/my_colors.dart';
-import 'package:task_manager/info_app/my_constants.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/models/task_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
@@ -21,7 +21,6 @@ class _TaskCardState extends State<TaskCard> {
   @override
   void initState() {
     super.initState();
-    updateStateWork();
   }
 
   void updateStateWork() {
@@ -61,6 +60,7 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   Widget build(BuildContext context) {
+    updateStateWork();
     if (stateWork == null) return Container();
     return GestureDetector(
       onTap: () {
@@ -122,6 +122,7 @@ class _TaskCardState extends State<TaskCard> {
                       widget.task.name,
                       style: const TextStyle(
                         fontFamily: MyConstants.appFont,
+                        fontWeight: FontWeight.bold,
                         fontSize: MyConstants.mediumFontSize,
                         color: MyColors.headerText,
                       ),

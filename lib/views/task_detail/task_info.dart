@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/info_app/my_colors.dart';
-import 'package:task_manager/info_app/my_constants.dart';
-import 'package:task_manager/info_app/my_icon.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
+import 'package:task_manager/utils/my_icon.dart';
 import 'package:task_manager/models/task_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';

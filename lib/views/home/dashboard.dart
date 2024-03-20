@@ -1,56 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/info_app/my_colors.dart';
-import 'package:task_manager/info_app/my_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/blocs/task_bloc.dart';
+import 'package:task_manager/models/task_model.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/models/charts_model.dart';
 import 'package:task_manager/views/home/note.dart';
-// ignore: depend_on_referenced_packages
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class DashBoard extends StatefulWidget {
-  const DashBoard({super.key});
+  const DashBoard({Key? key}) : super(key: key);
 
   @override
   State<DashBoard> createState() => _DashBoardState();
 }
 
 class _DashBoardState extends State<DashBoard> {
-  List<charts.Series<ChartsModel, String>> seriesPieData = [];
-
-  int getProgressToday() {
-    return 33;
-  }
-
-  int countDueTask() {
-    return 2;
-  }
-
-  int countNotYetDoneTask() {
-    return 3;
-  }
-
-  int countInProgressTask() {
-    return 2;
-  }
-
-  int countCompletedTask() {
-    return 1;
-  }
-
   @override
-  void initState() {
-    super.initState();
-    _generateData();
+  Widget build(BuildContext context) {
+    return BlocBuilder<TaskBloc, TaskState>(
+      bloc: BlocProvider.of<TaskBloc>(context),
+      builder: (context, state) {
+        if (state.allTasks.isEmpty) {
+          return CircularProgressIndicator();
+        } else {
+          return buildDashboard(state.allTasks);
+        }
+      },
+    );
   }
 
-  void _generateData() {
+  Widget buildDashboard(List<Task> tasks) {
+    List<charts.Series<ChartsModel, String>> seriesPieData = [];
     List<ChartsModel> data = [
-      ChartsModel(MyConstants.due, countDueTask(), MyColors.due),
+      ChartsModel(MyConstants.due, countDueTask(tasks), MyColors.due),
+      ChartsModel(MyConstants.notYetDone, countNotYetDoneTask(tasks),
+          MyColors.notYetDone),
+      ChartsModel(MyConstants.inProgress, countInProgressTask(tasks),
+          MyColors.inProgress),
       ChartsModel(
-          MyConstants.notYetDone, countNotYetDoneTask(), MyColors.notYetDone),
-      ChartsModel(
-          MyConstants.inProgress, countInProgressTask(), MyColors.inProgress),
-      ChartsModel(
-          MyConstants.completed, countCompletedTask(), MyColors.completed),
+          MyConstants.completed, countCompletedTask(tasks), MyColors.completed),
     ];
 
     seriesPieData.add(
@@ -68,10 +57,7 @@ class _DashBoardState extends State<DashBoard> {
         labelAccessorFn: (ChartsModel model, _) => '${model.count}',
       ),
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
       width: MediaQuery.of(context).size.width,
@@ -94,7 +80,7 @@ class _DashBoardState extends State<DashBoard> {
                   //todo
                 },
                 child: Text(
-                  "${MyConstants.completed} ${getProgressToday()}% ${MyConstants.today.toLowerCase()} >",
+                  "${MyConstants.completed} ${getProgressToday(tasks)}% ${MyConstants.today.toLowerCase()} >",
                   style: const TextStyle(
                     fontFamily: MyConstants.appFont,
                     fontSize: MyConstants.largeFontSize,
@@ -109,7 +95,7 @@ class _DashBoardState extends State<DashBoard> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width/2,
+                width: MediaQuery.of(context).size.width / 2,
                 child: SizedBox(
                   height: MyConstants.chartSize,
                   width: MyConstants.chartSize,
@@ -125,22 +111,22 @@ class _DashBoardState extends State<DashBoard> {
                 children: [
                   Note(
                     color: MyColors.due,
-                    count: countDueTask(),
+                    count: countDueTask(tasks),
                     description: MyConstants.due,
                   ),
                   Note(
                     color: MyColors.notYetDone,
-                    count: countNotYetDoneTask(),
+                    count: countNotYetDoneTask(tasks),
                     description: MyConstants.notYetDone,
                   ),
                   Note(
                     color: MyColors.inProgress,
-                    count: countInProgressTask(),
+                    count: countInProgressTask(tasks),
                     description: MyConstants.inProgress,
                   ),
                   Note(
                     color: MyColors.completed,
-                    count: countCompletedTask(),
+                    count: countCompletedTask(tasks),
                     description: MyConstants.completed,
                   ),
                 ],
@@ -150,5 +136,47 @@ class _DashBoardState extends State<DashBoard> {
         ],
       ),
     );
+  }
+
+  bool checkDueTask(Task task) {
+    if (task.deadline != null) {
+      return task.deadline!.year == DateTime.now().year &&
+          task.deadline!.month == DateTime.now().month &&
+          task.deadline!.day == DateTime.now().day &&
+          task.completionDate != null;
+    } else {
+      return false;
+    }
+  }
+
+  int countDueTask(List<Task> tasks) {
+    return tasks.where((task) {
+      return checkDueTask(task);
+    }).length;
+  }
+
+  double getProgressToday(List<Task> tasks) {
+    int count = countDueTask(tasks);
+    if (count == 0) return 100;
+
+    int progressTotal = 0;
+    for (int i = 0; i < tasks.length; i++)
+      if (checkDueTask(tasks[i])) progressTotal += tasks[i].progress;
+
+    return progressTotal / count.toDouble();
+  }
+
+  int countNotYetDoneTask(List<Task> tasks) {
+    return tasks.where((task) => task.progress == 0).length;
+  }
+
+  int countInProgressTask(List<Task> tasks) {
+    return tasks
+        .where((task) => task.progress > 0 && task.progress < 100)
+        .length;
+  }
+
+  int countCompletedTask(List<Task> tasks) {
+    return tasks.where((task) => task.completionDate != null).length;
   }
 }

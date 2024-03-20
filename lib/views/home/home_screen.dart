@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/blocs/task_bloc.dart';
 import 'package:task_manager/views/home/custom_appbar.dart';
 import 'package:task_manager/views/home/dashboard.dart';
 import 'package:task_manager/views/home/info_user.dart';
@@ -12,15 +14,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+@override
+  void initState() {
+    super.initState();
+    TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
+    taskBloc.add(LoadTasks(1));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(children: const [
-        CustomAppbar(),
-        InfoUser(),
-        DashBoard(),
-        TaskList(),
-      ]),
-    );
+    return BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
+      return Scaffold(
+        body: ListView(children: const [
+          CustomAppbar(),
+          InfoUser(),
+          DashBoard(),
+          TaskList(),
+        ]),
+      );
+    });
   }
 }

@@ -22,4 +22,24 @@ class Task {
     this.name = "Taskname",
     this.progress = 0,
   });
+
+  bool isDue() {
+    if (deadline == null) return false;
+    return deadline!.year == DateTime.now().year &&
+        deadline!.month == DateTime.now().month &&
+        deadline!.day == DateTime.now().day &&
+        deadline!.isAfter(DateTime.now());
+  }
+
+  bool isInProgress() {
+    return progress > 0 && progress < 100 && deadline!.isAfter(DateTime.now());
+  }
+
+  bool isExpired() {
+    return deadline!.isBefore(DateTime.now()) && progress < 100;
+  }
+
+  bool isCompleted() {
+    return progress == 100;
+  }
 }

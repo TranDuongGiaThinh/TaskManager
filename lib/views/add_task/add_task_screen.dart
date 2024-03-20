@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/info_app/my_colors.dart';
-import 'package:task_manager/info_app/my_constants.dart';
-import 'package:task_manager/models/task_model.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
+import 'package:task_manager/views/add_task/custom_input.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -11,7 +11,8 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  Task task = Task.empty();
+  DateTime? deadline = DateTime.now();
+  DateTime? startDate =DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -33,60 +34,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    children: const [
-                      Text(
-                        MyConstants.taskName,
-                        style: TextStyle(
-                          fontFamily: MyConstants.appFont,
-                          fontSize: MyConstants.largeFontSize,
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.primary,
-                        ),
-                      ),
-                    ],
+                  CustomInput(
+                    name: MyConstants.taskName,
+                    label: MyConstants.enterTaskName,
+                    buttonName:
+                        deadline != null ? null : MyConstants.addDeadline,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      //todo
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 5, bottom: 5),
-                      padding: const EdgeInsets.all(5),
-                      height: MediaQuery.of(context).size.height / 7,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: MyColors.inputBackground,
-                      ),
-                      child: const Text(
-                        MyConstants.enterTaskName,
-                        style: TextStyle(
-                          fontFamily: MyConstants.appFont,
-                          fontSize: MyConstants.largeFontSize,
-                          color: MyColors.headerText,
-                        ),
-                      ),
+                  if (deadline != null)
+                    CustomInput(
+                      name: MyConstants.taskDeadline,
+                      label: MyConstants.enterTime,
+                      buttonName:
+                          startDate != null ? null : MyConstants.addStartDate,
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          //todo
-                        },
-                        child: const Text(
-                          "+ ${MyConstants.addDeadline}",
-                          style: TextStyle(
-                            fontFamily: MyConstants.appFont,
-                            fontSize: MyConstants.largeFontSize,
-                            color: MyColors.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  if (startDate != null)
+                    CustomInput(
+                      name: MyConstants.startDate,
+                      label: MyConstants.enterTime,
+                    ),
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/presenters/user_presenter.dart';
 import 'package:task_manager/utils/my_colors.dart';
 import 'package:task_manager/utils/my_constants.dart';
 
@@ -13,7 +14,7 @@ class _InfoUserState extends State<InfoUser> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 10, right:  10, bottom: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       color: MyColors.infoUser,
       child: Row(children: [
         Container(
@@ -26,7 +27,7 @@ class _InfoUserState extends State<InfoUser> {
             ),
             shape: BoxShape.circle,
             image: const DecorationImage(
-              image: AssetImage("assets/defaultAvatar.png"),
+              image: AssetImage(MyConstants.avtDefault),
               fit: BoxFit.cover,
             ),
           ),
@@ -53,17 +54,16 @@ class _InfoUserState extends State<InfoUser> {
                         color: MyColors.premiumText,
                       ),
                     ),
-                    
                   ),
-                  const SizedBox( width:  5)
+                  const SizedBox(width: 5)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: const [
+                children: [
                   Text(
-                    "Trần Dương Gia Thịnh",
+                    UserPresenter.user.name,
                     style: TextStyle(
                         fontFamily: MyConstants.appFont,
                         fontSize: MyConstants.largeFontSize,

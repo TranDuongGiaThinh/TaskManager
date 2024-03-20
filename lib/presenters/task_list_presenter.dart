@@ -1,9 +1,9 @@
 import 'package:task_manager/blocs/task_bloc.dart';
 
-class TaskPresenter {
-  final TaskBloc taskBloc;
+class HomePresenter {
+  TaskBloc taskBloc;
 
-  TaskPresenter({required this.taskBloc});
+  HomePresenter({required this.taskBloc});
 
   void loadTasks(int userId) {
     taskBloc.add(LoadTasks(userId));

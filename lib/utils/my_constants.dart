@@ -1,4 +1,4 @@
-class MyConstants{
+class MyConstants {
   static const String appName = "Task Manager";
 
   static const String appFont = "roboto";
@@ -15,7 +15,8 @@ class MyConstants{
   static const double redPointSize = 8.0;
   static const double redPointRight = -6.0;
   static const double redPointTop = -6.0;
-  
+
+  static const String avtDefault = "assets/defaultAvatar.png";
   static const String search = "Tìm kiếm...";
   static const String premium = "Premium";
   static const String statisticalWork = "Thống kê công việc";

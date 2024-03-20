@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/blocs/task_bloc.dart';
+import 'package:task_manager/presenters/user_presenter.dart';
 import 'package:task_manager/views/home/custom_appbar.dart';
 import 'package:task_manager/views/home/dashboard.dart';
 import 'package:task_manager/views/home/info_user.dart';
@@ -14,11 +15,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-@override
+  @override
   void initState() {
     super.initState();
+
+    UserPresenter(1);
+
     TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
-    taskBloc.add(LoadTasks(1));
+    taskBloc.add(LoadTasks(UserPresenter.user.id));
   }
 
   @override

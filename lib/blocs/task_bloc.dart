@@ -1,3 +1,4 @@
+import 'package:task_manager/blocs/add_task_bloc.dart';
 import 'package:task_manager/models/task_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/presenters/user_presenter.dart';
@@ -27,8 +28,9 @@ class LoadTasks extends TaskEvent {
 }
 
 class AddTask extends TaskEvent {
-  final Task task;
-  const AddTask({required this.task});
+  Function gotoHome;
+
+  AddTask({required this.gotoHome});
 }
 
 class UpdateTask extends TaskEvent {
@@ -47,7 +49,10 @@ class FilterTasks extends TaskEvent {
 }
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc() : super(const TaskState(allTasks: [], filteredTasks: [])) {
+  AddTaskBloc? addTaskBloc;
+
+  TaskBloc({this.addTaskBloc})
+      : super(const TaskState(allTasks: [], filteredTasks: [])) {
     on<LoadTasks>((event, emit) async {
       List<Task> tasks =
           await TaskRepository().getListTask(UserPresenter.user.id);
@@ -57,9 +62,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     });
 
     on<AddTask>((event, emit) async {
-      TaskRepository().addTask(event.task);
+      if (addTaskBloc != null) {
+        addTaskBloc!.add(AddNewTask());
 
-      add(LoadTasks(UserPresenter.user.id));
+        event.gotoHome();
+
+        addTaskBloc!.close();
+
+        add(LoadTasks(UserPresenter.user.id));
+      }
     });
 
     on<UpdateTask>((event, emit) async {
@@ -73,9 +84,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
       add(LoadTasks(UserPresenter.user.id));
     });
-    
+
     on<FilterTasks>((event, emit) async {
-      List<Task> filteredTasks = TaskRepository().filterTasks(state.allTasks, event.filterName);
+      List<Task> filteredTasks =
+          TaskRepository().filterTasks(state.allTasks, event.filterName);
 
       emit(
         TaskState(

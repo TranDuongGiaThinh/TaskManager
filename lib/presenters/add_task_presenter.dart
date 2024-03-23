@@ -1,12 +1,25 @@
+import 'package:task_manager/blocs/add_task_bloc.dart';
 import 'package:task_manager/blocs/task_bloc.dart';
-import 'package:task_manager/models/task_model.dart';
 
-class AddTaskPresenter{
+class AddTaskPresenter {
   final TaskBloc taskBloc;
+  Function gotoHome;
 
-  AddTaskPresenter({required this.taskBloc});
+  AddTaskPresenter({required this.taskBloc, required this.gotoHome}) {
+    taskBloc.addTaskBloc = AddTaskBloc();
+  }
 
-  void addTask(Task task) {
-    taskBloc.add(AddTask(task: task));
+  void onClickBackButton(){
+    gotoHome();
+
+    taskBloc.addTaskBloc = AddTaskBloc();
+  }
+
+  void addTask() {
+    taskBloc.add(AddTask(gotoHome: gotoHome));
+  }
+
+  void onTextField() {
+    taskBloc.addTaskBloc.add(UpdateState(onTextField: true));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/blocs/add_task_bloc.dart';
 import 'package:task_manager/blocs/task_bloc.dart';
 import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/views/home/home_screen.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TaskBloc(),
+      create: (context) => TaskBloc(addTaskBloc: AddTaskBloc()),
       child: MaterialApp(
         title: MyConstants.appName,
         theme: ThemeData(

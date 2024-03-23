@@ -21,16 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     UserPresenter(1);
 
-    TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
-    taskBloc.add(LoadTasks(UserPresenter.user.id));
+    BlocProvider.of<TaskBloc>(context).add(LoadTasks(UserPresenter.user.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
       return Scaffold(
-        body: ListView(children: const [
-          CustomAppbar(),
+        body: ListView(children: [
+          CustomAppbar(taskBloc: BlocProvider.of<TaskBloc>(context)),
           InfoUser(),
           DashBoard(),
           TaskList(),

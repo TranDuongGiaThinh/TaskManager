@@ -1,8 +1,7 @@
 import 'package:task_manager/models/checklist_item_model.dart';
 
 class ChecklistRepository {
-  List<ChecklistItem> getChecklist(int idTask) {
-    List<ChecklistItem> allChecklist = [
+  List<ChecklistItem> allChecklist = [
       ChecklistItem(
         id: 1,
         idTask: 1,
@@ -23,8 +22,24 @@ class ChecklistRepository {
       ),
     ];
 
+  List<ChecklistItem> getChecklist(int idTask) {
     return allChecklist
         .where((checklist) => checklist.idTask == idTask)
         .toList();
+  }
+
+  void addChecklistItem(ChecklistItem item) {
+    allChecklist.add(item);
+  }
+
+  void updateChecklistItem(ChecklistItem item) {
+    int index = allChecklist.indexWhere((checklist) => checklist.id == item.id);
+    if (index != -1) {
+      allChecklist[index] = item;
+    }
+  }
+
+  void deleteChecklistItem(id) {
+    allChecklist.removeWhere((checklist) => checklist.id == id);
   }
 }

@@ -4,6 +4,7 @@ import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/models/task_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'dart:core';
 import 'package:task_manager/views/task_detail/task_detail_screen.dart';
 
 class TaskCard extends StatefulWidget {
@@ -131,10 +132,14 @@ class _TaskCardState extends State<TaskCard> {
                   Expanded(
                     child: Text(
                       calculateDate(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: MyConstants.appFont,
                         fontSize: MyConstants.smallFontSize,
-                        color: MyColors.normalText,
+                        color: widget.task.deadline != null
+                            ? widget.task.isExpired()
+                                ? MyColors.redPoint
+                                : MyColors.normalText
+                            : MyColors.normalText,
                       ),
                     ),
                   ),

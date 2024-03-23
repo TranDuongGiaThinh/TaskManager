@@ -22,7 +22,7 @@ class _DashBoardState extends State<DashBoard> {
       bloc: BlocProvider.of<TaskBloc>(context),
       builder: (context, state) {
         if (state.allTasks.isEmpty) {
-          return CircularProgressIndicator();
+          return Container();
         } else {
           return buildDashboard(state.allTasks);
         }

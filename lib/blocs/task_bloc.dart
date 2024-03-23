@@ -49,9 +49,9 @@ class FilterTasks extends TaskEvent {
 }
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  AddTaskBloc? addTaskBloc;
+  AddTaskBloc addTaskBloc;
 
-  TaskBloc({this.addTaskBloc})
+  TaskBloc({required this.addTaskBloc})
       : super(const TaskState(allTasks: [], filteredTasks: [])) {
     on<LoadTasks>((event, emit) async {
       List<Task> tasks =
@@ -61,16 +61,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       );
     });
 
-    on<AddTask>((event, emit) async {
-      if (addTaskBloc != null) {
-        addTaskBloc!.add(AddNewTask());
+    on<AddTask>((event, emit) {
+      addTaskBloc.add(AddNewTask());
 
-        event.gotoHome();
+      event.gotoHome();
 
-        addTaskBloc!.close();
-
-        add(LoadTasks(UserPresenter.user.id));
-      }
+      List<Task> tasks = TaskRepository().getListTask(UserPresenter.user.id);
+      emit(
+        TaskState(allTasks: tasks, filteredTasks: tasks),
+      );
     });
 
     on<UpdateTask>((event, emit) async {

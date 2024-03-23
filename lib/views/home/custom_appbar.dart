@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/blocs/task_bloc.dart';
 import 'package:task_manager/utils/my_colors.dart';
 import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/utils/my_icon.dart';
 import 'package:task_manager/views/add_task/add_task_screen.dart';
 
 class CustomAppbar extends StatefulWidget {
-  const CustomAppbar({super.key});
+  const CustomAppbar({super.key, required this.taskBloc});
+  final TaskBloc taskBloc;
 
   @override
   State<CustomAppbar> createState() => _CustomAppbarState();
@@ -58,7 +60,8 @@ class _CustomAppbarState extends State<CustomAppbar> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AddTaskScreen(),
+                  builder: (context) =>
+                      AddTaskScreen(taskBloc: widget.taskBloc),
                 ),
               );
             },

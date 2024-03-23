@@ -18,8 +18,8 @@ class Task {
   });
   Task.empty({
     this.id = 0,
-    this.idUser = 0,
-    this.name = "Taskname",
+    this.idUser = 1,
+    this.name = "",
     this.progress = 0,
   });
 

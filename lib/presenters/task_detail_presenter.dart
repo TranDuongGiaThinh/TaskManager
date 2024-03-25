@@ -1,20 +1,37 @@
+import 'package:task_manager/blocs/task_detail_bloc.dart';
 import 'package:task_manager/blocs/task_bloc.dart';
+import 'package:task_manager/models/checklist_item_model.dart';
 import 'package:task_manager/models/task_model.dart';
 
-class TaskDetailPresenter{
+class TaskDetailPresenter {
   final TaskBloc taskBloc;
+  final Function gotoHome;
 
-  TaskDetailPresenter({required this.taskBloc});
+  TaskDetailPresenter({
+    required Task task,
+    required this.taskBloc,
+    required this.gotoHome,
+  }) {
+    taskBloc.taskDetaiBloc = TaskDetailBloc(task: task);
+  }
 
-  void updateTask(Task task) {
-    taskBloc.add(UpdateTask(task: task));
+  updateTaskInfo() {
+    //
   }
-  
-  void deletedTask(Task task) {
-    taskBloc.add(DeletedTask(task: task));
+
+  checkedChecklistItem(ChecklistItem item) {
+    //
   }
-  
-  void completedTask(Task task) {
+
+  updateChecklistItem(ChecklistItem item) {
+    //
+  }
+
+  deletedTask() {
+    //
+  }
+
+  completedTask() {
     //
   }
 }

@@ -24,7 +24,7 @@ class TaskRepository {
       id: 3,
       idUser: 1,
       name: "Xử lý sự kiện",
-      progress: 60,
+      progress: 67,
       startDate: DateTime(2024, 03, 15, 9, 0),
       deadline: DateTime(2024, 03, 23, 23, 59),
     ),

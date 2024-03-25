@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager/presenters/add_task_presenter.dart';
+import 'package:task_manager/utils/my_colors.dart';
+import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/utils/my_icon.dart';
 
 class DateTimePickerWidget extends StatefulWidget {
@@ -63,7 +65,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     return GestureDetector(
       onTap: () => _selectDateTime(context),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(MyIcon.watch),
           SizedBox(width: 8),
@@ -73,6 +75,11 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
                   ? widget.presenter.taskBloc.addTaskBloc.state.deadline
                   : widget.presenter.taskBloc.addTaskBloc.state.startDate,
             )}',
+            style: TextStyle(
+              fontFamily: MyConstants.appFont,
+              fontSize: MyConstants.mediumFontSize,
+              color: MyColors.headerText,
+            ),
           ),
         ],
       ),

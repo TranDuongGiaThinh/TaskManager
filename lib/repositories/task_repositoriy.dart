@@ -38,6 +38,10 @@ class TaskRepository {
     ),
   ];
 
+  Task getTask(int idTask) {
+    return tasks.where((task) => task.id == idTask).first;
+  }
+
   List<Task> getListTask(int idUser) {
     return tasks.where((task) => task.idUser == idUser).toList();
   }

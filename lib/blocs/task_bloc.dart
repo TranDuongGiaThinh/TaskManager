@@ -1,4 +1,5 @@
 import 'package:task_manager/blocs/add_task_bloc.dart';
+import 'package:task_manager/blocs/task_detail_bloc.dart';
 import 'package:task_manager/models/task_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/presenters/user_presenter.dart';
@@ -50,12 +51,13 @@ class FilterTasks extends TaskEvent {
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   AddTaskBloc addTaskBloc;
+  TaskDetailBloc? taskDetaiBloc;
 
   TaskBloc({required this.addTaskBloc})
       : super(const TaskState(allTasks: [], filteredTasks: [])) {
-    on<LoadTasks>((event, emit) async {
-      List<Task> tasks =
-          await TaskRepository().getListTask(UserPresenter.user.id);
+    on<LoadTasks>((event, emit) {
+      List<Task> tasks = TaskRepository().getListTask(UserPresenter.user.id);
+      
       emit(
         TaskState(allTasks: tasks, filteredTasks: tasks),
       );

@@ -5,8 +5,10 @@ import 'package:task_manager/utils/my_icon.dart';
 import 'package:task_manager/models/checklist_item_model.dart';
 
 class CheckListCard extends StatefulWidget {
-  const CheckListCard({super.key, required this.item});
+  const CheckListCard(
+      {super.key, required this.item, required this.checkedChecklistItem});
   final ChecklistItem item;
+  final Function(ChecklistItem) checkedChecklistItem;
 
   @override
   State<CheckListCard> createState() => _CheckListCardState();
@@ -17,12 +19,15 @@ class _CheckListCardState extends State<CheckListCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
-      child: Row(
-        children: [
-        if (widget.item.completed)
-          const Icon(MyIcon.checkedBox, color: MyColors.primary)
-        else
-          const Icon(MyIcon.box, color: MyColors.iconUnchecked),
+      child: Row(children: [
+        GestureDetector(
+          onTap: () {
+            widget.checkedChecklistItem(widget.item);
+          },
+          child: widget.item.completed
+              ? const Icon(MyIcon.checkedBox, color: MyColors.primary)
+              : const Icon(MyIcon.box, color: MyColors.iconUnchecked),
+        ),
         const SizedBox(width: 10),
         Text(
           widget.item.name,

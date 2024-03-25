@@ -3,8 +3,7 @@ import 'package:task_manager/utils/my_colors.dart';
 import 'package:task_manager/utils/my_constants.dart';
 import 'package:task_manager/utils/my_icon.dart';
 import 'package:task_manager/models/task_model.dart';
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
+import 'package:task_manager/views/task_detail/custom_date_time_picker.dart';
 
 class TaskInfo extends StatefulWidget {
   const TaskInfo({super.key, required this.task});
@@ -126,32 +125,26 @@ class _TaskInfoState extends State<TaskInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (widget.task.startDate != null)
-                Text(
-                  "${MyConstants.startTime}: ${DateFormat('HH:mm dd/MM/yyyy').format(widget.task.startDate!)}",
-                  style: const TextStyle(
-                    fontFamily: MyConstants.appFont,
-                    fontSize: MyConstants.mediumFontSize,
-                    color: MyColors.normalText,
-                  ),
-                ),
+                CustomDateTimePicker(
+                    type: MyConstants.startTime,
+                    datetime: widget.task.startDate!,
+                    onDateTimeChanged: (a) {
+                      //todo
+                    }),
               if (widget.task.deadline != null)
-                Text(
-                  "${MyConstants.deadlineTime}: ${DateFormat('HH:mm dd/MM/yyyy').format(widget.task.deadline!)}",
-                  style: const TextStyle(
-                    fontFamily: MyConstants.appFont,
-                    fontSize: MyConstants.mediumFontSize,
-                    color: MyColors.normalText,
-                  ),
-                ),
+                CustomDateTimePicker(
+                    type: MyConstants.deadlineTime,
+                    datetime: widget.task.deadline!,
+                    onDateTimeChanged: (a) {
+                      //todo
+                    }),
               if (widget.task.completionDate != null)
-                Text(
-                  "${MyConstants.completionTime}: ${DateFormat('HH:mm dd/MM/yyyy').format(widget.task.completionDate!)}",
-                  style: const TextStyle(
-                    fontFamily: MyConstants.appFont,
-                    fontSize: MyConstants.mediumFontSize,
-                    color: MyColors.normalText,
-                  ),
-                ),
+                CustomDateTimePicker(
+                    type: MyConstants.completionTime,
+                    datetime: widget.task.completionDate!,
+                    onDateTimeChanged: (a) {
+                      //todo
+                    }),
             ],
           ),
         ),

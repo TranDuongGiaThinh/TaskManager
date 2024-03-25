@@ -5,47 +5,16 @@ import 'package:task_manager/models/checklist_item_model.dart';
 import 'package:task_manager/views/task_detail/checklist_card.dart';
 
 class Checklist extends StatefulWidget {
-  const Checklist({super.key, required this.idTask});
-  final int idTask;
+  const Checklist(
+      {super.key, required this.checklist, required this.checkedChecklistItem});
+  final List<ChecklistItem> checklist;
+  final Function(ChecklistItem) checkedChecklistItem;
 
   @override
   State<Checklist> createState() => _ChecklistState();
 }
 
 class _ChecklistState extends State<Checklist> {
-  List<ChecklistItem> checklist = [];
-
-  @override
-  void initState() {
-    super.initState();
-    getChecklist();
-  }
-
-  void getChecklist() {
-    setState(() {
-      checklist = [
-        ChecklistItem(
-          id: 1,
-          idTask: 1,
-          name: "Thiết kế màn hình trang chủ",
-          completed: true,
-        ),
-        ChecklistItem(
-          id: 1,
-          idTask: 1,
-          name: "Thiết kế màn hình chi tiết",
-          completed: false,
-        ),
-        ChecklistItem(
-          id: 1,
-          idTask: 1,
-          name: "Thiết kế màn hình thêm mới",
-          completed: false,
-        ),
-      ];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,8 +29,11 @@ class _ChecklistState extends State<Checklist> {
             color: MyColors.primary,
           ),
         ),
-        for (int i = 0; i < checklist.length; i++)
-          CheckListCard(item: checklist[i]),
+        for (int i = 0; i < widget.checklist.length; i++)
+          CheckListCard(
+            item: widget.checklist[i],
+            checkedChecklistItem: (checklistItem) {widget.checkedChecklistItem(checklistItem);},
+          ),
       ],
     );
   }

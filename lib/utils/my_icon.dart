@@ -10,5 +10,6 @@ class MyIcon {
   static const IconData checkedBox = Icons.check_box_outlined;
   static const IconData box = Icons.check_box_outline_blank_rounded;
   static const IconData watch = Icons.watch_later_outlined;
-
+  static const IconData edit = Icons.edit;
+  static const IconData save = Icons.check;
 }

@@ -45,4 +45,7 @@ class MyConstants {
   //Task detail
   static const String checklist = "Checklist";
   static const String complete = "Đánh Dấu Hoàn Thành";
+  static const String editTaskInfo = "Chỉnh sử công việc";
+  static const String editChecklist = "Chỉnh sửa Checklist";
+  static const String deletedTask = "Xóa công việc";
 }

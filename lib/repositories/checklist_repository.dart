@@ -1,4 +1,5 @@
 import 'package:task_manager/models/checklist_item_model.dart';
+import 'package:task_manager/repositories/task_repositoriy.dart';
 
 class ChecklistRepository {
   List<ChecklistItem> allChecklist = [
@@ -70,6 +71,18 @@ class ChecklistRepository {
         .toList();
   }
 
+  int calculateCompletionPercentage(int idTask) {
+    List<ChecklistItem> checklistItems = getChecklist(idTask);
+
+    int completedCount = checklistItems.where((item) => item.completed).length;
+
+    int totalCount = checklistItems.length;
+
+    double percentage = (completedCount / totalCount) * 100;
+
+    return percentage.toInt();
+  }
+
   int getMaxChecklistId() {
     if (allChecklist.isEmpty) return 0;
 
@@ -85,6 +98,11 @@ class ChecklistRepository {
   void addChecklistItem(ChecklistItem item) {
     item.id = getMaxChecklistId() + 1;
     allChecklist.add(item);
+
+    TaskRepository().updateTaskProgress(
+      item.idTask,
+      calculateCompletionPercentage(item.idTask),
+    );
   }
 
   void updateChecklistItem(ChecklistItem item) {
@@ -92,9 +110,19 @@ class ChecklistRepository {
     if (index != -1) {
       allChecklist[index] = item;
     }
+
+    TaskRepository().updateTaskProgress(
+      item.idTask,
+      calculateCompletionPercentage(item.idTask),
+    );
   }
 
-  void deleteChecklistItem(id) {
-    allChecklist.removeWhere((checklist) => checklist.id == id);
+  deleteChecklistItem(ChecklistItem item) {
+    allChecklist.removeWhere((checklist) => checklist.id == item.id);
+
+    TaskRepository().updateTaskProgress(
+      item.idTask,
+      calculateCompletionPercentage(item.idTask),
+    );
   }
 }

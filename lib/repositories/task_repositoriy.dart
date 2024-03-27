@@ -85,7 +85,21 @@ class TaskRepository {
     }
   }
 
+  updateTaskProgress(int idTask, int newProgress) {
+    int index = tasks.indexWhere((task) => task.id == idTask);
+    
+      tasks[index].progress = newProgress;
+  }
+
   deleteTask(int idTask) {
     tasks.removeWhere((task) => task.id == idTask);
+  }
+
+  completedTask(int idTask) {
+    int index = tasks.indexWhere((task) => task.id == idTask);
+    if (index != -1) {
+      tasks[index].completionDate = DateTime.now();
+      tasks[index].progress = 100;
+    }
   }
 }

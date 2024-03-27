@@ -40,9 +40,11 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    load();
+    if (presenter != null) if (presenter!
+            .taskBloc.taskDetailBloc!.state.task.id !=
+        widget.task.id) load();
     return BlocBuilder<TaskBloc, TaskState>(
-      bloc: BlocProvider.of<TaskBloc>(context),
+      bloc: presenter!.taskBloc,
       builder: (context, state) {
         if (presenter == null) {
           return Scaffold(
@@ -58,20 +60,21 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
+                  TaskInfo(
+                    presenter: presenter!,
+                    gotoHome: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
                     },
-                    child: const Icon(Icons.arrow_back_ios),
                   ),
-                  TaskInfo(task: presenter!.taskBloc.taskDetaiBloc!.state.task),
                   const SizedBox(height: 5),
                   Expanded(
-                      child: Checklist(
-                    checklist:
-                        presenter!.taskBloc.taskDetaiBloc!.state.checklist,
-                    checkedChecklistItem: presenter!.checkedChecklistItem,
-                  )),
+                    child: Checklist(
+                      presenter: presenter!,
+                    ),
+                  ),
                   const SizedBox(height: 5),
                   BtnComplete(
                     updateTask: presenter!.completedTask,

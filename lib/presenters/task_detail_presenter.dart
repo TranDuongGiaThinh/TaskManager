@@ -12,14 +12,48 @@ class TaskDetailPresenter {
     required this.taskBloc,
     required this.gotoHome,
   }) {
-    taskBloc.taskDetaiBloc = TaskDetailBloc(task: task);
+    taskBloc.taskDetailBloc = TaskDetailBloc(task: task);
   }
 
-  updateTaskInfo() {
-    //
+  onfocusTextField(bool isFocus) {
+    taskBloc.taskDetailBloc!.add(focusTextField(isFocusTextField: isFocus));
   }
 
-  checkedChecklistItem(ChecklistItem item) {
+  onEdittingInfo(bool isEditting) {
+    taskBloc.taskDetailBloc!.add(edittingInfo(isEdittingInfo: isEditting));
+  }
+
+  onEdittingChecklist(bool isEditting) {
+    taskBloc.taskDetailBloc!
+        .add(edittingChecklist(isEdittingChecklist: isEditting));
+  }
+
+  saveTaskName() {
+    onfocusTextField(false);
+
+    taskBloc.taskDetailBloc!.state.task.name =
+        taskBloc.taskDetailBloc!.state.taskNameController.text;
+
+    taskBloc.add(UpdateTask());
+  }
+
+  saveSartDate(DateTime dateTime) {
+    taskBloc.taskDetailBloc!.state.task.startDate = dateTime;
+
+    taskBloc.add(UpdateTask());
+  }
+
+  saveDeadline(DateTime dateTime) {
+    taskBloc.taskDetailBloc!.state.task.deadline = dateTime;
+
+    taskBloc.add(UpdateTask());
+  }
+
+  deletedTask() {
+    taskBloc.add(DeleteTask(gotoHome: gotoHome));
+  }
+
+  onClickCheckBoxChecklistItem(ChecklistItem item) {
     //
   }
 
@@ -27,11 +61,7 @@ class TaskDetailPresenter {
     //
   }
 
-  deletedTask() {
-    //
-  }
-
   completedTask() {
-    //
+    taskBloc.add(CompletedTask(gotoHome: gotoHome));
   }
 }

@@ -9,12 +9,14 @@ class CustomDateTimePicker extends StatefulWidget {
       {Key? key,
       required this.type,
       required this.datetime,
-      required this.onDateTimeChanged})
+      required this.isEditting,
+      this.onDateTimeChanged})
       : super(key: key);
 
   final String type;
   final DateTime datetime;
-  final Function(DateTime) onDateTimeChanged;
+  final bool isEditting;
+  final Function(DateTime)? onDateTimeChanged;
 
   @override
   _CustomDateTimePickerState createState() => _CustomDateTimePickerState();
@@ -29,7 +31,8 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
     selectedDateTime = widget.datetime;
   }
 
-  Future<void> _selectDateTime(BuildContext context) async {
+  Future<void> selectDateTime(BuildContext context) async {
+    if (widget.isEditting == false) return;
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDateTime,
@@ -51,7 +54,7 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
             pickedTime.minute,
           );
         });
-        widget.onDateTimeChanged(selectedDateTime);
+        widget.onDateTimeChanged!(selectedDateTime);
       }
     }
   }
@@ -59,19 +62,29 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _selectDateTime(context),
+      onTap: () => selectDateTime(context),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(MyIcon.watch,color: MyColors.normalText,),
+          Icon(
+            MyIcon.watch,
+            color: MyColors.normalText,
+          ),
           SizedBox(width: 8),
           Text(
-            '${widget.type} ${DateFormat('HH:mm dd/MM/yyyy').format(selectedDateTime)}',style: TextStyle(
+            '${widget.type} ${DateFormat('HH:mm dd/MM/yyyy').format(selectedDateTime)}',
+            style: TextStyle(
               fontFamily: MyConstants.appFont,
               fontSize: MyConstants.mediumFontSize,
               color: MyColors.normalText,
             ),
           ),
+          SizedBox(width: 8),
+          if (widget.isEditting)
+            Icon(
+              MyIcon.edit,
+              color: MyColors.normalText,
+            ),
         ],
       ),
     );

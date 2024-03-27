@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/presenters/task_detail_presenter.dart';
 import 'package:task_manager/utils/my_colors.dart';
 import 'package:task_manager/utils/my_constants.dart';
-import 'package:task_manager/models/checklist_item_model.dart';
 import 'package:task_manager/views/task_detail/checklist_card.dart';
 
 class Checklist extends StatefulWidget {
   const Checklist(
-      {super.key, required this.checklist, required this.checkedChecklistItem});
-  final List<ChecklistItem> checklist;
-  final Function(ChecklistItem) checkedChecklistItem;
+      {super.key, required this.presenter});
+  final TaskDetailPresenter presenter;
 
   @override
   State<Checklist> createState() => _ChecklistState();
@@ -29,10 +28,10 @@ class _ChecklistState extends State<Checklist> {
             color: MyColors.primary,
           ),
         ),
-        for (int i = 0; i < widget.checklist.length; i++)
+        for (int i = 0; i < widget.presenter.taskBloc.taskDetailBloc!.state.checklist.length; i++)
           CheckListCard(
-            item: widget.checklist[i],
-            checkedChecklistItem: (checklistItem) {widget.checkedChecklistItem(checklistItem);},
+            item: widget.presenter.taskBloc.taskDetailBloc!.state.checklist[i],
+            checkedChecklistItem: (checklistItem) {widget.presenter.onClickCheckBoxChecklistItem(checklistItem);},
           ),
       ],
     );

@@ -34,14 +34,30 @@ class AddTask extends TaskEvent {
   AddTask({required this.gotoHome});
 }
 
-class UpdateTask extends TaskEvent {
-  final Task task;
-  const UpdateTask({required this.task});
+class EdittingInfo extends TaskEvent {
+  final bool isEdittingInfo;
+
+  EdittingInfo({required this.isEdittingInfo});
 }
 
-class DeletedTask extends TaskEvent {
-  final Task task;
-  const DeletedTask({required this.task});
+class EdittingChecklist extends TaskEvent {
+  final bool isEdittingChecklist;
+
+  EdittingChecklist({required this.isEdittingChecklist});
+}
+
+class UpdateTask extends TaskEvent {}
+
+class DeleteTask extends TaskEvent {
+  final Function gotoHome;
+
+  DeleteTask({required this.gotoHome});
+}
+
+class CompletedTask extends TaskEvent {
+  final Function gotoHome;
+
+  CompletedTask({required this.gotoHome});
 }
 
 class FilterTasks extends TaskEvent {
@@ -51,42 +67,19 @@ class FilterTasks extends TaskEvent {
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   AddTaskBloc addTaskBloc;
-  TaskDetailBloc? taskDetaiBloc;
+  TaskDetailBloc? taskDetailBloc;
 
   TaskBloc({required this.addTaskBloc})
       : super(const TaskState(allTasks: [], filteredTasks: [])) {
     on<LoadTasks>((event, emit) {
       List<Task> tasks = TaskRepository().getListTask(UserPresenter.user.id);
-      
+
       emit(
         TaskState(allTasks: tasks, filteredTasks: tasks),
       );
     });
 
-    on<AddTask>((event, emit) {
-      addTaskBloc.add(AddNewTask());
-
-      event.gotoHome();
-
-      List<Task> tasks = TaskRepository().getListTask(UserPresenter.user.id);
-      emit(
-        TaskState(allTasks: tasks, filteredTasks: tasks),
-      );
-    });
-
-    on<UpdateTask>((event, emit) async {
-      TaskRepository().updateTask(event.task);
-
-      add(LoadTasks(UserPresenter.user.id));
-    });
-
-    on<DeletedTask>((event, emit) async {
-      TaskRepository().deleteTask(event.task.id);
-
-      add(LoadTasks(UserPresenter.user.id));
-    });
-
-    on<FilterTasks>((event, emit) async {
+    on<FilterTasks>((event, emit) {
       List<Task> filteredTasks =
           TaskRepository().filterTasks(state.allTasks, event.filterName);
 
@@ -97,6 +90,49 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           selectedFilter: event.filterName,
         ),
       );
+    });
+
+    on<AddTask>((event, emit) {
+      addTaskBloc.add(AddNewTask());
+
+      event.gotoHome();
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
+    on<UpdateTask>((event, emit) {
+      taskDetailBloc!.add(updateTask());
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
+    on<EdittingInfo>((event, emit) {
+      taskDetailBloc!.add(edittingInfo(isEdittingInfo: event.isEdittingInfo));
+
+      emit(state);
+    });
+
+    on<EdittingChecklist>((event, emit) {
+      taskDetailBloc!.add(
+          edittingChecklist(isEdittingChecklist: event.isEdittingChecklist));
+
+      emit(state);
+    });
+
+    on<DeleteTask>((event, emit) {
+      TaskRepository().deleteTask(taskDetailBloc!.state.task.id);
+
+      event.gotoHome();
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
+    on<CompletedTask>((event, emit) {
+      TaskRepository().completedTask(taskDetailBloc!.state.task.id);
+
+      event.gotoHome();
+
+      LoadTasks(UserPresenter.user.id);
     });
   }
 }

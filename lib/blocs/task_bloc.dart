@@ -1,5 +1,6 @@
 import 'package:task_manager/blocs/add_task_bloc.dart';
 import 'package:task_manager/blocs/task_detail_bloc.dart';
+import 'package:task_manager/models/checklist_item_model.dart';
 import 'package:task_manager/models/task_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/presenters/user_presenter.dart';
@@ -48,10 +49,24 @@ class EdittingChecklist extends TaskEvent {
 
 class UpdateTask extends TaskEvent {}
 
+class UpdateChecklist extends TaskEvent {}
+
 class DeleteTask extends TaskEvent {
   final Function gotoHome;
 
   DeleteTask({required this.gotoHome});
+}
+
+class DeleteChecklistItem extends TaskEvent {
+  final ChecklistItem item;
+
+  DeleteChecklistItem({required this.item});
+}
+
+class AddChecklistItem extends TaskEvent {
+  final ChecklistItem item;
+
+  AddChecklistItem({required this.item});
 }
 
 class CompletedTask extends TaskEvent {
@@ -106,6 +121,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       LoadTasks(UserPresenter.user.id);
     });
 
+    on<UpdateChecklist>((event, emit) {
+      taskDetailBloc!.add(updateChecklistItem());
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
     on<EdittingInfo>((event, emit) {
       taskDetailBloc!.add(edittingInfo(isEdittingInfo: event.isEdittingInfo));
 
@@ -123,6 +144,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       TaskRepository().deleteTask(taskDetailBloc!.state.task.id);
 
       event.gotoHome();
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
+    on<AddChecklistItem>((event, emit) {
+      taskDetailBloc!.add(addChecklistItem(item: event.item));
+
+      LoadTasks(UserPresenter.user.id);
+    });
+
+    on<DeleteChecklistItem>((event, emit) {
+      taskDetailBloc!.add(deleteChecklistItem(item: event.item));
 
       LoadTasks(UserPresenter.user.id);
     });

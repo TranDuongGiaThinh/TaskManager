@@ -23,11 +23,6 @@ class TaskDetailPresenter {
     taskBloc.taskDetailBloc!.add(edittingInfo(isEdittingInfo: isEditting));
   }
 
-  onEdittingChecklist(bool isEditting) {
-    taskBloc.taskDetailBloc!
-        .add(edittingChecklist(isEdittingChecklist: isEditting));
-  }
-
   saveTaskName() {
     onfocusTextField(false);
 
@@ -53,15 +48,41 @@ class TaskDetailPresenter {
     taskBloc.add(DeleteTask(gotoHome: gotoHome));
   }
 
+  onEdittingChecklist(bool isEditting) {
+    taskBloc.taskDetailBloc!
+        .add(edittingChecklist(isEdittingChecklist: isEditting));
+  }
+
+  saveEdittingChecklistItem() {
+    taskBloc.taskDetailBloc!.state.edittingChecklistItem!.name =
+        taskBloc.taskDetailBloc!.state.checklistItemController.text;
+
+    taskBloc.add(UpdateChecklist());
+  }
+
   onClickCheckBoxChecklistItem(ChecklistItem item) {
-    //
+    taskBloc.taskDetailBloc!.state.edittingChecklistItem = item;
+    taskBloc.taskDetailBloc!.state.edittingChecklistItem!.completed =
+        !taskBloc.taskDetailBloc!.state.edittingChecklistItem!.completed;
+
+    taskBloc.add(UpdateChecklist());
   }
 
-  updateChecklistItem(ChecklistItem item) {
-    //
+  onEdittingChecklistItem(ChecklistItem item) {
+    taskBloc.taskDetailBloc!.add(edittingChecklistItem(item: item));
   }
 
-  completedTask() {
+  onCompletedTask() {
     taskBloc.add(CompletedTask(gotoHome: gotoHome));
+  }
+
+  onAddChecklistItem(int idTask) {
+    ChecklistItem item = ChecklistItem.empty(idTask: idTask);
+
+    taskBloc.add(AddChecklistItem(item: item));
+  }
+
+  onDeleteChecklistItem(ChecklistItem item) {
+    taskBloc.add(DeleteChecklistItem(item: item));
   }
 }

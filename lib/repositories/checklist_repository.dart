@@ -95,6 +95,14 @@ class ChecklistRepository {
     return maxId;
   }
 
+  void completeChecklist(int idTask) {
+    for (int i = 0; i < allChecklist.length; i++) {
+      if (allChecklist[i].idTask == idTask) {
+        allChecklist[i].completed = true;
+      }
+    }
+  }
+
   void addChecklistItem(ChecklistItem item) {
     item.id = getMaxChecklistId() + 1;
     allChecklist.add(item);

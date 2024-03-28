@@ -1,4 +1,5 @@
 import 'package:task_manager/models/task_model.dart';
+import 'package:task_manager/repositories/checklist_repository.dart';
 import 'package:task_manager/utils/my_constants.dart';
 
 class TaskRepository {
@@ -103,5 +104,7 @@ class TaskRepository {
       tasks[index].completionDate = DateTime.now();
       tasks[index].progress = 100;
     }
+
+    ChecklistRepository().completeChecklist(idTask);
   }
 }

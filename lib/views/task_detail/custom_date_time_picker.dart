@@ -61,6 +61,7 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    selectedDateTime = widget.datetime;
     return GestureDetector(
       onTap: () => selectDateTime(context),
       child: Row(

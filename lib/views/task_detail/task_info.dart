@@ -20,21 +20,14 @@ class _TaskInfoState extends State<TaskInfo> {
   String? stateTask;
   Color? stateColor;
 
-  @override
-  void initState() {
-    super.initState();
-    updateStateTask();
-  }
-
   void updateStateTask() {
-    setState(() {
-      stateTask = widget.presenter.taskBloc.taskDetailBloc!.state.task.progress == 0
-          ? MyConstants.notYetDone
-          : widget.presenter.taskBloc.taskDetailBloc!.state.task.progress == 100
-              ? MyConstants.completed
-              : MyConstants.inProgress;
-      stateColor = calculateStateColor(stateTask);
-    });
+    stateTask = widget.presenter.taskBloc.taskDetailBloc!.state.task.progress ==
+            0
+        ? MyConstants.notYetDone
+        : widget.presenter.taskBloc.taskDetailBloc!.state.task.progress == 100
+            ? MyConstants.completed
+            : MyConstants.inProgress;
+    stateColor = calculateStateColor(stateTask);
   }
 
   Color calculateStateColor(String? stateWork) {
@@ -67,6 +60,8 @@ class _TaskInfoState extends State<TaskInfo> {
     return BlocBuilder<TaskDetailBloc, TaskDetailState>(
         bloc: widget.presenter.taskBloc.taskDetailBloc,
         builder: (context, state) {
+          updateStateTask();
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -174,11 +169,10 @@ class _TaskInfoState extends State<TaskInfo> {
               if (widget
                   .presenter.taskBloc.taskDetailBloc!.state.isFocusTextField)
                 Container(
-                  padding: const EdgeInsets.all(5),
-                  height: 50,
+                  height: 30,
                   child: TextField(
-                    controller: widget
-                  .presenter.taskBloc.taskDetailBloc!.state.taskNameController,
+                    controller: widget.presenter.taskBloc.taskDetailBloc!.state
+                        .taskNameController,
                     autofocus: true,
                     style: TextStyle(
                       fontFamily: MyConstants.appFont,
@@ -219,10 +213,12 @@ class _TaskInfoState extends State<TaskInfo> {
                         color: MyColors.headerText,
                       ),
                     ),
-                    if (widget
-                  .presenter.taskBloc.taskDetailBloc!.state.isEdittingInfo)
-                    GestureDetector(
-                        onTap: () {widget.presenter.onfocusTextField(true);},
+                    if (widget.presenter.taskBloc.taskDetailBloc!.state
+                        .isEdittingInfo)
+                      GestureDetector(
+                        onTap: () {
+                          widget.presenter.onfocusTextField(true);
+                        },
                         child: Icon(
                           MyIcon.edit,
                           color: MyColors.headerText,
@@ -240,8 +236,8 @@ class _TaskInfoState extends State<TaskInfo> {
                         null)
                       CustomDateTimePicker(
                         type: MyConstants.startTime,
-                        datetime: widget
-                            .presenter.taskBloc.taskDetailBloc!.state.task.startDate!,
+                        datetime: widget.presenter.taskBloc.taskDetailBloc!
+                            .state.task.startDate!,
                         isEditting: widget.presenter.taskBloc.taskDetailBloc!
                             .state.isEdittingInfo,
                         onDateTimeChanged: widget.presenter.taskBloc
@@ -251,13 +247,13 @@ class _TaskInfoState extends State<TaskInfo> {
                               }
                             : null,
                       ),
-                    if (widget
-                            .presenter.taskBloc.taskDetailBloc!.state.task.deadline !=
+                    if (widget.presenter.taskBloc.taskDetailBloc!.state.task
+                            .deadline !=
                         null)
                       CustomDateTimePicker(
                         type: MyConstants.deadlineTime,
-                        datetime: widget
-                            .presenter.taskBloc.taskDetailBloc!.state.task.deadline!,
+                        datetime: widget.presenter.taskBloc.taskDetailBloc!
+                            .state.task.deadline!,
                         isEditting: widget.presenter.taskBloc.taskDetailBloc!
                             .state.isEdittingInfo,
                         onDateTimeChanged: widget.presenter.taskBloc

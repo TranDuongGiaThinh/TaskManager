@@ -77,7 +77,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                   ),
                   const SizedBox(height: 5),
                   BtnComplete(
-                    updateTask: presenter!.completedTask,
+                    updateTask: presenter!.onCompletedTask,
                   )
                 ],
               )),

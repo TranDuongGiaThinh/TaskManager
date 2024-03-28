@@ -87,8 +87,10 @@ class TaskRepository {
 
   updateTaskProgress(int idTask, int newProgress) {
     int index = tasks.indexWhere((task) => task.id == idTask);
-    
-      tasks[index].progress = newProgress;
+
+    tasks[index].progress = newProgress;
+
+    if (newProgress == 100) tasks[index].completionDate = DateTime.now();
   }
 
   deleteTask(int idTask) {

@@ -2,7 +2,7 @@ import 'package:task_manager/models/checklist_item_model.dart';
 import 'package:task_manager/repositories/task_repositoriy.dart';
 
 class ChecklistRepository {
-  List<ChecklistItem> allChecklist = [
+  static List<ChecklistItem> allChecklist = [
     ChecklistItem(
       id: 1,
       idTask: 1,

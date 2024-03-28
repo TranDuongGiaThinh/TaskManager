@@ -12,4 +12,5 @@ class MyIcon {
   static const IconData watch = Icons.watch_later_outlined;
   static const IconData edit = Icons.edit;
   static const IconData save = Icons.check;
+  static const IconData delete = Icons.delete_forever;
 }
